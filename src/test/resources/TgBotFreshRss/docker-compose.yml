@@ -1,0 +1,18 @@
+version: "3.8"
+
+services:
+  bot:
+    build:
+      context: ../../../../
+      dockerfile: src/test/resources/TgBotFreshRss/local.dockerfile
+    #    image: armand0w/tgbotfreshrss:latest
+    container_name: tgBotFreshRss
+    hostname: docker
+    restart: "no"
+    env_file: ../../../../.env
+    entrypoint: java
+    command:
+#      - -Dlog4j.debug=true
+#      - -Droot.log.level=TRACE
+      - -jar
+      - TgBotFreshRss.jar
