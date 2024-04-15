@@ -20,7 +20,7 @@
     <surefire-plugin.version>3.2.5</surefire-plugin.version>
     <junit.version>5.10.2</junit.version>
     <lombok.version>1.18.32</lombok.version>
-    <slf4j.version>2.0.12</slf4j.version>
+    <slf4j.version>2.0.13</slf4j.version>
     <shade-plugin.version>3.5.2</shade-plugin.version>
     <jar-plugin.version>3.3.0</jar-plugin.version>
   </properties>
