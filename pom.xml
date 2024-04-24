@@ -21,7 +21,7 @@
     <junit.version>5.10.2</junit.version>
     <lombok.version>1.18.32</lombok.version>
     <slf4j.version>2.0.13</slf4j.version>
-    <shade-plugin.version>3.5.2</shade-plugin.version>
+    <shade-plugin.version>3.5.3</shade-plugin.version>
     <jar-plugin.version>3.4.1</jar-plugin.version>
   </properties>
 
