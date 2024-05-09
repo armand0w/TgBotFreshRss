@@ -72,6 +72,9 @@ public class RssRead implements Runnable {
         // Channel title
         return "*" + scapeTelegramString(item.optQuery("/origin/title").toString()) + "*\n\n" +
 
+                // author
+                "Author: " + scapeTelegramString(item.optQuery("/author").toString()) + "\n" +
+
                 // title
                 scapeTelegramString(item.optQuery("/title").toString()) + "\n\n" +
 
