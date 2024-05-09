@@ -76,7 +76,7 @@ public class RestClient {
         }
 
         var headers = response.headers();
-        headers.map().forEach((k, v) -> log.trace(k + ":" + v));
+        headers.map().forEach((k, v) -> log.trace("{}:{}", k, v));
         log.trace("--------------------------------------------------------------------------------------------------");
 
         if ( this.statusCode == 429 ) {

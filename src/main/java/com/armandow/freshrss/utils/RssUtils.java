@@ -54,26 +54,4 @@ public class RssUtils {
 
         log.trace(config.toString());
     }
-
-    public static int getInitialStart() {
-        var cs = Calendar.getInstance().get(Calendar.SECOND);
-        var rf = config.getBot().refresh();
-        log.trace("minute {}:{}", Calendar.getInstance().get(Calendar.MINUTE), cs);
-
-        if ( rf < 60 ) {
-            return ( 60 - cs );
-        }
-
-        rf = ( rf / 60 );
-        log.debug("every '{}' minutes", rf);
-
-        if ( rf < 60 ) {
-            var cm = Calendar.getInstance().get(Calendar.MINUTE);
-            var w = ((( (((cm / rf) + 1 )) * rf ) - cm) * 60) - cs;
-            log.debug("w: '{}'s", w);
-            return w;
-        }
-
-        return 0;
-    }
 }

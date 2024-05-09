@@ -10,8 +10,8 @@
   <name>TgBotFreshRss</name>
 
   <properties>
-    <maven.compiler.source>21</maven.compiler.source>
-    <maven.compiler.target>21</maven.compiler.target>
+    <maven.compiler.source>17</maven.compiler.source>
+    <maven.compiler.target>17</maven.compiler.target>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
 
@@ -20,16 +20,16 @@
     <surefire-plugin.version>3.2.5</surefire-plugin.version>
     <junit.version>5.10.2</junit.version>
     <lombok.version>1.18.32</lombok.version>
-    <slf4j.version>2.0.12</slf4j.version>
+    <slf4j.version>2.0.13</slf4j.version>
     <shade-plugin.version>3.5.2</shade-plugin.version>
-    <jar-plugin.version>3.3.0</jar-plugin.version>
+    <jar-plugin.version>3.4.1</jar-plugin.version>
   </properties>
 
   <dependencies>
     <dependency>
       <groupId>com.armandow</groupId>
       <artifactId>TgBotApi</artifactId>
-      <version>0.0.5</version>
+      <version>0.1.6</version>
     </dependency>
 
     <!-- Sentry -->

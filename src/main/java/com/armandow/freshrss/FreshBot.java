@@ -3,6 +3,7 @@ package com.armandow.freshrss;
 import com.armandow.freshrss.task.RssRead;
 import com.armandow.freshrss.utils.RssUtils;
 import com.armandow.telegrambotapi.TelegramBot;
+import com.armandow.telegrambotapi.utils.TelegramApiUtils;
 import io.sentry.Sentry;
 import lombok.extern.slf4j.Slf4j;
 
@@ -34,20 +35,17 @@ public class FreshBot {
         }
 
         try {
-            var scheduler = Executors.newSingleThreadScheduledExecutor();
-            var eService = Executors.newVirtualThreadPerTaskExecutor();
-            scheduler.scheduleWithFixedDelay(() -> eService.execute(new RssRead()),
-                    RssUtils.getInitialStart(),
-                    RssUtils.config.getBot().refresh(),
-                    SECONDS);
+            // Start tasks
+            var scheduler = Executors.newScheduledThreadPool(0);
+            scheduler.scheduleWithFixedDelay(new RssRead(),
+                    TelegramApiUtils.getInitialStart(RssUtils.config.getBot().refresh()),
+                    RssUtils.config.getBot().refresh(), SECONDS);
         } catch (Exception e) {
             log.error("Start scheduler RSSBot", e);
             Sentry.captureException(e);
             System.exit(-1);
         }
 
-        var bot = new TelegramBot(RssUtils.config.getBot().token());
-        // bot.registerCommand(new AddUrlCommand());
-        // bot.run();
+        new TelegramBot(RssUtils.config.getBot().token());
     }
 }
