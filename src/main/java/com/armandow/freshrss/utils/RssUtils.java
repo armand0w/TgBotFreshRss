@@ -8,6 +8,10 @@ import com.armandow.freshrss.model.Sentry;
 import lombok.extern.slf4j.Slf4j;
 
 import java.net.InetAddress;
+import java.time.LocalDateTime;
+import java.time.ZoneOffset;
+import java.time.format.DateTimeFormatter;
+import java.time.format.FormatStyle;
 import java.util.Arrays;
 import java.util.HashSet;
 
@@ -52,5 +56,11 @@ public class RssUtils {
         );
 
         log.trace(config.toString());
+    }
+
+    public static String formatMexDate(Long published) {
+        var format = DateTimeFormatter.ofLocalizedDateTime(FormatStyle.SHORT);
+        var date = LocalDateTime.ofEpochSecond(published, 0, ZoneOffset.of("-06:00"));
+        return date.format(format);
     }
 }
