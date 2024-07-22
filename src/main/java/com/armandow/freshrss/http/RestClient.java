@@ -57,30 +57,35 @@ public class RestClient {
         // https://www.epochconverter.com/
         var now = Instant.now().minus(RssUtils.config.getBot().refresh(), SECONDS).getEpochSecond();
         var uri = URI.create(config.getFreshRSS().urlBase() + "reader/api/0/stream/contents/user/-/label/" + topic + "?ot=" + now);
-        log.trace("URL: {}", uri);
+        log.debug("URL: {}", uri);
         var request = HttpRequest.newBuilder()
                 .timeout(Duration.ofSeconds(25))
                 .GET()
                 .uri(uri)
-                .header("User-Agent", "TgFreshBot v0.0.1")
+                .header("User-Agent", "TgFreshBot v" + RssUtils.getRelease())
                 .header("Authorization", "GoogleLogin auth=" + config.getFreshRSS().auth())
                 .build();
 
         var response = httpClient.send(request, HttpResponse.BodyHandlers.ofString());
 
-        this.statusCode = response.statusCode();
-        this.body = new JSONObject(response.body());
-
-        if ( this.statusCode != 200 ) {
-            log.warn(this.body.toString(2));
+        if ( this.statusCode == 429 ) {
+            throw new TooManyRequestExceptions("Too Many Requests", this.body);
         }
 
         var headers = response.headers();
         headers.map().forEach((k, v) -> log.trace("{}:{}", k, v));
         log.trace("--------------------------------------------------------------------------------------------------");
 
-        if ( this.statusCode == 429 ) {
-            throw new TooManyRequestExceptions("Too Many Requests", this.body);
+        this.statusCode = response.statusCode();
+
+        try {
+            this.body = new JSONObject(response.body());
+
+            if ( this.statusCode != 200 ) {
+                log.warn(this.body.toString(2));
+            }
+        } catch (Exception e) {
+            log.error(e.getMessage(), e);
         }
 
         return this;

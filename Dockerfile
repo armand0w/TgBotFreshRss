@@ -1,5 +1,5 @@
 
-FROM maven:3-eclipse-temurin-21 AS builder
+FROM maven:3-eclipse-temurin-17 AS builder
 WORKDIR /opt/builder
 
 RUN git clone -b develop https://github.com/armand0w/TgBotApi
@@ -10,20 +10,22 @@ COPY ./src ./TgBotFreshRss/src
 RUN mvn -f ./TgBotFreshRss/pom.xml clean compile package -DskipTests
 
 
-FROM azul/zulu-openjdk-alpine:21-jre-headless-latest
+FROM armand0w/java:openjdk-17-jre-headless
 LABEL author="Armando Castillo"
 
-RUN apk add --no-cache sudo
 ARG USERNAME=tgbot
-RUN adduser --gecos "$USERNAME" \
-    --disabled-password \
-    --shell /bin/sh \
-    --uid 1000 \
-    ${USERNAME} && \
-    echo "$USERNAME:1234" | chpasswd && \
-    echo "$USERNAME ALL=(ALL) ALL" > /etc/sudoers.d/$USERNAME && chmod 0440 /etc/sudoers.d/$USERNAME \
-    && addgroup ${USERNAME} wheel \
-    && addgroup ${USERNAME} ${USERNAME}
+ARG USER_UID=1000
+ARG USER_GID=$USER_UID
+
+RUN groupadd --gid ${USER_GID} ${USERNAME} \
+    && useradd --uid ${USER_UID} --gid ${USER_GID} -m ${USERNAME}
+#    && apt-get update \
+#    && apt-get install -y sudo \
+#    && echo "$USERNAME" ALL=\(root\) NOPASSWD:ALL > /etc/sudoers.d/"$USERNAME" \
+#    && chmod 0440 /etc/sudoers.d/"$USERNAME" \
+#    && rm -rf /var/lib/apt/lists/* /var/cache/apt/archives/*
+
+USER ${USERNAME}
 
 WORKDIR /opt/app
 RUN chown -R ${USERNAME}:${USERNAME} /opt/app
