@@ -1,6 +1,5 @@
 
-FROM armand0w/maven:openjdk-17-jdk AS builder
-
+FROM maven:3-eclipse-temurin-17 AS builder
 WORKDIR /opt/builder
 
 RUN git clone -b develop https://github.com/armand0w/TgBotApi
