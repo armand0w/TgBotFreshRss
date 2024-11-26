@@ -40,7 +40,8 @@ public class RssUtils {
                         System.getenv("BOT_TOKEN"),
                         Integer.parseInt(System.getenv("BOT_REFRESH")),
                         Long.parseLong(System.getenv("USER_ID")),
-                        Long.parseLong(System.getenv("CHANNEL_ID"))
+                        Long.parseLong(System.getenv("CHANNEL_ID")),
+                        Long.parseLong(System.getenv("THREAD_ID"))
                 )
         );
 

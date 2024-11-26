@@ -82,6 +82,7 @@ public class RssRead implements Runnable {
             message.setText(feeds);
             message.setParseMode(ParseMode.MARKDOWNV2);
             message.setChatId(config.getBot().channelIdGit());
+            message.setThreadId(config.getBot().threadId());
             log.trace("Message: {}", message.getText());
 
             resp = message.send();
