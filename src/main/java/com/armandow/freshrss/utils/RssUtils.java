@@ -11,7 +11,6 @@ import java.net.InetAddress;
 import java.time.LocalDateTime;
 import java.time.ZoneOffset;
 import java.time.format.DateTimeFormatter;
-import java.time.format.FormatStyle;
 import java.util.Arrays;
 import java.util.HashSet;
 
@@ -60,8 +59,8 @@ public class RssUtils {
     }
 
     public static String formatMexDate(Long published) {
-        var format = DateTimeFormatter.ofLocalizedDateTime(FormatStyle.SHORT);
+        var format = DateTimeFormatter.ofPattern("dd/MMM/yy HH:mm");
         var date = LocalDateTime.ofEpochSecond(published, 0, ZoneOffset.of("-06:00"));
-        return date.format(format);
+        return date.format(format).replace("\u00A0", "").replace(".", "");
     }
 }
