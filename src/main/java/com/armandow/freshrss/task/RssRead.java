@@ -68,8 +68,8 @@ public class RssRead implements Runnable {
         var published = RssUtils.formatMexDate(item.getLong("published"));
 
         if ( !title.startsWith(author) ) {
-            return author + " [" + published +"]:\t" + title + "\n\n";
-        } else return "[" + published +"]:\t" + title + "\n\n";
+            return  published + " [" + author + "]:\t" + title + "\n\n";
+        } else return "[" + published + "]:\t" + title + "\n\n";
     }
 
     protected void sendNotify(String feeds) {
@@ -82,6 +82,8 @@ public class RssRead implements Runnable {
             message.setText(feeds);
             message.setParseMode(ParseMode.MARKDOWNV2);
             message.setChatId(config.getBot().channelIdGit());
+            if ( config.getBot().threadId() != 0L )
+                message.setThreadId(config.getBot().threadId());
             log.trace("Message: {}", message.getText());
 
             resp = message.send();
