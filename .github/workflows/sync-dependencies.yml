@@ -3,7 +3,7 @@ name: Sync Dependencies Branch
 on:
   push:
     branches:
-      - develop
+      - main
 
 jobs:
   sync-branches:
@@ -20,12 +20,12 @@ jobs:
           git config --global user.email 'github-actions[bot]@users.noreply.github.com'
           git checkout dependencies
           # Intentar merge con --squash y -X theirs para manejar conflictos
-          if ! git merge develop --squash -X theirs; then
+          if ! git merge main --squash -X theirs; then
             echo "⚠️ Merge conflict detected"
             git merge --abort
             exit 1
           fi
-          git commit -m "chore: sync with develop branch (squashed)"
+          git commit -m "chore: sync with main branch (squashed)"
           git push origin dependencies
         env:
           GITHUB_TOKEN: ${{ secrets.GH_PAT }}
