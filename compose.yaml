@@ -7,7 +7,18 @@ services:
     container_name: tgBotFreshRss
     hostname: tgBotFreshRss
     restart: "no"
-    env_file: .env
+#    env_file: .env
+    environment:
+      TZ: ${TZ}
+      SENTRY_DSN: ${SENTRY_DSN}
+      BOT_TOKEN: ${BOT_TOKEN}
+      USER_ID: ${USER_ID}
+      CHANNEL_ID: ${CHANNEL_ID}
+      THREAD_ID: ${THREAD_ID}
+      BOT_REFRESH: ${BOT_REFRESH}
+      URL_BASE: ${URL_BASE}
+      FRESH_AUTH: ${FRESH_AUTH}
+      TOPICS: ${TOPICS}
     entrypoint: java
     command:
 #      - -Dlog4j.debug=true
