@@ -1,0 +1,16 @@
+name: TgBotFressRss
+
+services:
+  bot:
+    build:
+      context: .
+    container_name: tgBotFreshRss
+    hostname: tgBotFreshRss
+    restart: "no"
+    env_file: .env
+    entrypoint: java
+    command:
+#      - -Dlog4j.debug=true
+#      - -Droot.log.level=TRACE
+      - -jar
+      - TgBotFreshRss.jar
