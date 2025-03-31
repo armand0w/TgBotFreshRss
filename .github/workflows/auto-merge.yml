@@ -42,7 +42,7 @@ jobs:
           git config --global user.name 'github-actions[bot]'
           git config --global user.email 'github-actions[bot]@users.noreply.github.com'
           gh pr merge --auto --squash "$PR_URL"
-          git fetch origin
+          git fetch --all
           git checkout main
           git merge dependencies
           git push origin main
