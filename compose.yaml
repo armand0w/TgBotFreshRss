@@ -19,9 +19,3 @@ services:
       URL_BASE: ${URL_BASE}
       FRESH_AUTH: ${FRESH_AUTH}
       TOPICS: ${TOPICS}
-    entrypoint: java
-    command:
-#      - -Dlog4j.debug=true
-#      - -Droot.log.level=TRACE
-      - -jar
-      - TgBotFreshRss.jar
