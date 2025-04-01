@@ -10,24 +10,30 @@ RUN mvn -f ./TgBotFreshRss/pom.xml clean compile package -DskipTests
 
 
 FROM azul/zulu-openjdk-alpine:17-jre-latest
-LABEL author="Armando Castillo"
+LABEL maintainer="Armando Castillo" \
+      version="0.0.2" \
+      description="Telegram Notify FreshRss"
 
-ARG USERNAME=tgbot
-ARG USER_UID=1000
-ARG USER_GID=$USER_UID
+ENV APP_USER=tgbot \
+    APP_UID=1000 \
+    APP_HOME=/opt/app \
+    JAVA_OPTS="-Xms64m -Xmx128m"
 
-RUN addgroup -g ${USER_GID} ${USERNAME} \
-    && adduser -D -u ${USER_UID} -G ${USERNAME} ${USERNAME}
+RUN addgroup -g $APP_UID $APP_USER && \
+    adduser -D -u $APP_UID -G $APP_USER $APP_USER && \
+    mkdir -p $APP_HOME && chown -R ${APP_USER}:${APP_USER} $APP_HOME && \
+    mkdir -p /home/$APP_USER
 
-WORKDIR /opt/app
-RUN chown -R ${USERNAME}:${USERNAME} /opt/app
+WORKDIR $APP_HOME
+USER $APP_USER
 
-USER ${USERNAME}
+COPY --from=builder --chown=$APP_USER:$APP_USER /opt/builder/TgBotFreshRss/target/TgBotFreshRss.jar ./
 
-COPY --from=builder /opt/builder/TgBotFreshRss/target/TgBotFreshRss.jar TgBotFreshRss.jar
+HEALTHCHECK --interval=30s --timeout=3s --start-period=5s --retries=3 \
+    CMD ps aux | grep java | grep TgBotFreshRss.jar || exit 1
 
-ENTRYPOINT ["java"]
-CMD ["-jar", "TgBotFreshRss.jar"]
+ENTRYPOINT ["sh", "-c"]
+CMD ["java $JAVA_OPTS -jar TgBotFreshRss.jar"]
 
 # docker build . -t armand0w/tgfreshbot
 # docker buildx build -f src/test/resources/TgBotFreshRss/local.dockerfile . --no-cache --platform linux/amd64,linux/arm64 --tag armand0w/tgbotfreshrss:beta --push
