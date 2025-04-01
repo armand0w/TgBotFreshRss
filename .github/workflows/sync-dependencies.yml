@@ -25,7 +25,14 @@ jobs:
             git merge --abort
             exit 1
           fi
-          git commit -m "chore: sync with main branch (squashed)"
-          git push origin dependencies
+          
+          # Verificar si hay cambios para commitear
+          if git diff --staged --quiet; then
+            echo "✅ No hay cambios que sincronizar"
+            exit 0
+          else
+            git commit -m "chore: sync with main branch (squashed)"
+            git push origin dependencies
+          fi
         env:
           GITHUB_TOKEN: ${{ secrets.GH_PAT }}
