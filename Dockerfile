@@ -1,4 +1,5 @@
-FROM maven:3-eclipse-temurin-17 AS builder
+# stage build java 21
+FROM maven:3-eclipse-temurin-24 AS builder
 WORKDIR /opt/builder
 
 RUN git clone -b develop https://github.com/armand0w/TgBotApi
@@ -6,12 +7,12 @@ RUN mvn -f TgBotApi/pom.xml install -DskipTests -e -B
 
 COPY ./pom.xml ./TgBotFreshRss/pom.xml
 COPY ./src ./TgBotFreshRss/src
-RUN mvn -f ./TgBotFreshRss/pom.xml clean compile package -DskipTests
+RUN mvn -f ./TgBotFreshRss/pom.xml clean package -DskipTests -e -B
 
-
-FROM azul/zulu-openjdk-alpine:17-jre-latest
+# stage run java 24
+FROM azul/zulu-openjdk-alpine:24-jre-headless-latest
 LABEL maintainer="Armando Castillo" \
-      version="0.0.2" \
+      version="0.0.3" \
       description="Telegram Notify FreshRss"
 
 ENV APP_USER=tgbot \
