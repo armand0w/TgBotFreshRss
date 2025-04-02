@@ -36,8 +36,9 @@ public class FreshBot {
 
         try {
             // Start tasks
-            var scheduler = Executors.newScheduledThreadPool(0);
-            scheduler.scheduleWithFixedDelay(new RssRead(),
+            var scheduler = Executors.newSingleThreadScheduledExecutor();
+            var eService = Executors.newVirtualThreadPerTaskExecutor();
+            scheduler.scheduleWithFixedDelay(() -> eService.execute(new RssRead()),
                     TelegramApiUtils.getInitialStart(RssUtils.config.getBot().refresh()),
                     RssUtils.config.getBot().refresh(), SECONDS);
         } catch (Exception e) {
