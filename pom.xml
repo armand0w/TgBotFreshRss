@@ -16,7 +16,7 @@
     <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
 
     <sentry.version>8.6.0</sentry.version>
-    <jacoco.version>0.8.12</jacoco.version>
+    <jacoco.version>0.8.13</jacoco.version>
     <surefire-plugin.version>3.5.3</surefire-plugin.version>
     <junit.version>5.12.1</junit.version>
     <lombok.version>1.18.38</lombok.version>
